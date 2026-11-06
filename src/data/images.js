@@ -1,6 +1,6 @@
 /**
  * Caminhos centralizados das imagens (pasta /public/images).
- * Para trocar uma foto, basta substituir o arquivo ou alterar o caminho aqui.
+ * Para substituir uma foto, basta trocar o arquivo ou atualizar o caminho aqui.
  */
 const IMG = {
   heroEarth: '/images/hero-earth.webp',

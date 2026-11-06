@@ -1,17 +1,17 @@
 import { useEffect, useState } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
+import { ROUTES } from '../constants/routes.js'
+import { NAV_LINKS } from '../data/siteData.js'
+import useScrolled from '../hooks/useScrolled.js'
 import Icon from './Icon.jsx'
-
-const links = [
-  { to: '/', label: 'Início', end: true },
-  { to: '/perigos-do-calor', label: 'Perigos do calor' },
-  { to: '/el-nino', label: 'El niño' },
-  { to: '/#apoio', label: 'Pontos de apoio', hash: true },
-]
 
 export function Logo({ light = false }) {
   return (
-    <Link to="/" className={`logo ${light ? 'logo--light' : ''}`} aria-label="Clima Amanhã — Início">
+    <Link
+      to={ROUTES.HOME}
+      className={`logo ${light ? 'logo--light' : ''}`}
+      aria-label="Clima Amanhã — Início"
+    >
       <Icon name="globe" size={30} strokeWidth={1.4} />
       <span>
         clima
@@ -23,50 +23,68 @@ export function Logo({ light = false }) {
 }
 
 export default function Header() {
-  const [scrolled, setScrolled] = useState(false)
-  const [open, setOpen] = useState(false)
+  const isScrolled = useScrolled(24)
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
   const location = useLocation()
 
+  // Fecha o menu mobile ao navegar para outra rota ou âncora
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24)
-    onScroll()
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
+    setIsMenuOpen(false)
+  }, [location.pathname, location.hash])
 
-  // fecha o menu mobile ao navegar
-  useEffect(() => setOpen(false), [location])
-
+  // Bloqueia o scroll do body enquanto o menu mobile estiver aberto e fecha com ESC
   useEffect(() => {
-    document.body.style.overflow = open ? 'hidden' : ''
-  }, [open])
+    document.body.style.overflow = isMenuOpen ? 'hidden' : ''
+
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') setIsMenuOpen(false)
+    }
+
+    if (isMenuOpen) {
+      window.addEventListener('keydown', handleKeyDown)
+    }
+
+    return () => {
+      document.body.style.overflow = ''
+      window.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [isMenuOpen])
+
+  const headerClassName = [
+    'header',
+    isScrolled && 'header--scrolled',
+    isMenuOpen && 'header--open',
+  ]
+    .filter(Boolean)
+    .join(' ')
 
   return (
-    <header className={`header ${scrolled ? 'header--scrolled' : ''} ${open ? 'header--open' : ''}`}>
+    <header className={headerClassName}>
       <div className="container header__inner">
         <Logo />
 
         <nav className="nav" aria-label="Navegação principal">
-          {links.map((l) =>
-            l.hash ? (
-              <Link key={l.to} to={l.to} className="nav__link">
-                {l.label}
+          {NAV_LINKS.map((link) =>
+            link.isHash ? (
+              <Link key={link.to} to={link.to} className="nav__link">
+                {link.label}
               </Link>
             ) : (
-              <NavLink key={l.to} to={l.to} end={l.end} className="nav__link">
-                {l.label}
+              <NavLink key={link.to} to={link.to} end={link.end} className="nav__link">
+                {link.label}
               </NavLink>
             ),
           )}
         </nav>
 
         <button
+          type="button"
           className="header__toggle"
-          onClick={() => setOpen((v) => !v)}
-          aria-label={open ? 'Fechar menu' : 'Abrir menu'}
-          aria-expanded={open}
+          onClick={() => setIsMenuOpen((prev) => !prev)}
+          aria-label={isMenuOpen ? 'Fechar menu' : 'Abrir menu'}
+          aria-expanded={isMenuOpen}
         >
-          <Icon name={open ? 'close' : 'menu'} size={26} />
+          <Icon name={isMenuOpen ? 'close' : 'menu'} size={26} />
         </button>
       </div>
     </header>

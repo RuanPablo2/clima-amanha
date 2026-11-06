@@ -1,33 +1,45 @@
 import { useEffect, useRef, useState } from 'react'
 
 /**
- * Faz o conteúdo surgir suavemente quando entra na tela.
- * `delay` em ms permite escalonar elementos vizinhos.
+ * Anima a entrada do elemento quando ele entra na área visível (viewport).
+ * `delay` (em ms) permite escalonar animações de elementos vizinhos.
  */
-export default function Reveal({ as: Tag = 'div', delay = 0, className = '', children, ...rest }) {
-  const ref = useRef(null)
-  const [visible, setVisible] = useState(false)
+export default function Reveal({
+  as: Tag = 'div',
+  delay = 0,
+  className = '',
+  children,
+  ...rest
+}) {
+  const elementRef = useRef(null)
+  const [isVisible, setIsVisible] = useState(false)
 
   useEffect(() => {
-    const el = ref.current
-    if (!el) return
-    const io = new IntersectionObserver(
+    const element = elementRef.current
+    if (!element) return undefined
+
+    const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setVisible(true)
-          io.disconnect()
+          setIsVisible(true)
+          observer.disconnect()
         }
       },
       { threshold: 0.12, rootMargin: '0px 0px -40px 0px' },
     )
-    io.observe(el)
-    return () => io.disconnect()
+
+    observer.observe(element)
+    return () => observer.disconnect()
   }, [])
+
+  const combinedClassName = ['reveal', isVisible && 'is-visible', className]
+    .filter(Boolean)
+    .join(' ')
 
   return (
     <Tag
-      ref={ref}
-      className={`reveal ${visible ? 'is-visible' : ''} ${className}`}
+      ref={elementRef}
+      className={combinedClassName}
       style={{ transitionDelay: `${delay}ms` }}
       {...rest}
     >

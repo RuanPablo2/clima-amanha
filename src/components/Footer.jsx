@@ -1,13 +1,9 @@
 import { Link } from 'react-router-dom'
-import { Logo } from './Header.jsx'
 import IMG from '../data/images.js'
+import { FOOTER_LINKS, TEAM_MEMBERS } from '../data/siteData.js'
+import { Logo } from './Header.jsx'
 
-const team = [
-  'Giulia Marquez Casadei',
-  'Larissa Castro Romeiro Ruiz',
-  'Mariane Costa',
-  'Maria Rita Gomes de Oliveira',
-]
+const BAND_BACKGROUND = `linear-gradient(90deg, rgba(167, 71, 50, 0.94) 0%, rgba(167, 71, 50, 0.8) 50%, rgba(37, 37, 34, 0.55) 100%), url(${IMG.sunsetTree})`
 
 export default function Footer() {
   return (
@@ -15,7 +11,7 @@ export default function Footer() {
       <section
         id="creditos"
         className="footer__band"
-        style={{ backgroundImage: `linear-gradient(90deg, rgba(167,71,50,.94) 0%, rgba(167,71,50,.8) 50%, rgba(37,37,34,.55) 100%), url(${IMG.sunsetTree})` }}
+        style={{ backgroundImage: BAND_BACKGROUND }}
       >
         <div className="container credits">
           <div className="credits__head">
@@ -28,10 +24,12 @@ export default function Footer() {
           </div>
 
           <ul className="credits__list">
-            {team.map((name, i) => (
-              <li key={name}>
-                <span className="mono credits__n">{String(i + 1).padStart(2, '0')}</span>
-                <span className="credits__name">{name}</span>
+            {TEAM_MEMBERS.map((memberName, index) => (
+              <li key={memberName}>
+                <span className="mono credits__n">
+                  {String(index + 1).padStart(2, '0')}
+                </span>
+                <span className="credits__name">{memberName}</span>
               </li>
             ))}
           </ul>
@@ -41,11 +39,15 @@ export default function Footer() {
       <div className="footer__bar">
         <div className="container footer__bar-inner">
           <Logo light />
-          <nav className="footer__nav" aria-label="Rodapé">
-            <Link to="/perigos-do-calor">Perigos do calor</Link>
-            <Link to="/el-nino">El niño</Link>
-            <Link to="/#apoio">Pontos de apoio</Link>
+
+          <nav className="footer__nav" aria-label="Links do rodapé">
+            {FOOTER_LINKS.map((link) => (
+              <Link key={link.to} to={link.to}>
+                {link.label}
+              </Link>
+            ))}
           </nav>
+
           <p className="mono footer__tag">
             por um planeta em equilíbrio <span className="footer__line" />
           </p>

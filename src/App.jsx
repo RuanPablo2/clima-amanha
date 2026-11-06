@@ -1,25 +1,41 @@
 import { useEffect } from 'react'
-import { Routes, Route, useLocation } from 'react-router-dom'
-import Header from './components/Header.jsx'
+import { Route, Routes, useLocation } from 'react-router-dom'
 import Footer from './components/Footer.jsx'
-import Home from './pages/Home.jsx'
+import Header from './components/Header.jsx'
+import { ROUTES } from './constants/routes.js'
 import Calor from './pages/Calor.jsx'
 import ElNino from './pages/ElNino.jsx'
+import Home from './pages/Home.jsx'
 
-/** Rola para o topo ao trocar de página, ou até a âncora (#secao) quando existir. */
+/**
+ * Gerencia o posicionamento da janela na troca de rotas:
+ * - Se houver hash (#secao), rola suavemente até o elemento-alvo.
+ * - Caso contrário, posiciona no topo da página.
+ */
 function ScrollManager() {
   const { pathname, hash } = useLocation()
 
   useEffect(() => {
     if (hash) {
-      const el = document.getElementById(hash.slice(1))
-      if (el) {
-        // espera o layout da página nova antes de rolar
-        requestAnimationFrame(() => el.scrollIntoView({ behavior: 'smooth' }))
-        return
+      const targetId = hash.slice(1)
+      const scrollToSection = () => {
+        const element = document.getElementById(targetId)
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        }
+      }
+
+      const frameId = requestAnimationFrame(scrollToSection)
+      const timerId = setTimeout(scrollToSection, 120)
+
+      return () => {
+        cancelAnimationFrame(frameId)
+        clearTimeout(timerId)
       }
     }
-    window.scrollTo({ top: 0 })
+
+    window.scrollTo({ top: 0, left: 0 })
+    return undefined
   }, [pathname, hash])
 
   return null
@@ -32,9 +48,9 @@ export default function App() {
       <Header />
       <main>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/perigos-do-calor" element={<Calor />} />
-          <Route path="/el-nino" element={<ElNino />} />
+          <Route path={ROUTES.HOME} element={<Home />} />
+          <Route path={ROUTES.CALOR} element={<Calor />} />
+          <Route path={ROUTES.EL_NINO} element={<ElNino />} />
           <Route path="*" element={<Home />} />
         </Routes>
       </main>

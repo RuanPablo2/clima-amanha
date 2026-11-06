@@ -1,5 +1,8 @@
-/** Ícones em SVG de traço fino — herdam a cor via currentColor. */
-const paths = {
+/**
+ * Biblioteca de ícones vetoriais em SVG de traço fino.
+ * Todos herdam a cor do texto via `currentColor`.
+ */
+const ICON_PATHS = {
   globe: (
     <>
       <circle cx="12" cy="12" r="9" />
@@ -10,6 +13,7 @@ const paths = {
   arrow: <path d="M5 12h14M13 6l6 6-6 6" />,
   arrowDown: <path d="M12 5v14M6 13l6 6 6-6" />,
   arrowLeft: <path d="M19 12H5M11 6l-6 6 6 6" />,
+  external: <path d="M7 17L17 7M9 7h8v8" />,
   droplet: <path d="M12 3s6 6.6 6 11a6 6 0 0 1-12 0c0-4.4 6-11 6-11z" />,
   leaf: (
     <>
@@ -42,7 +46,9 @@ const paths = {
       <path d="M10 20v-5h4v5" />
     </>
   ),
-  heart: <path d="M12 20s-7.5-4.6-9-9.6C2 6.9 4.4 4.5 7.2 4.5c2 0 3.6 1.2 4.8 3 1.2-1.8 2.8-3 4.8-3 2.8 0 5.2 2.4 4.2 5.9-1.5 5-9 9.6-9 9.6z" />,
+  heart: (
+    <path d="M12 20s-7.5-4.6-9-9.6C2 6.9 4.4 4.5 7.2 4.5c2 0 3.6 1.2 4.8 3 1.2-1.8 2.8-3 4.8-3 2.8 0 5.2 2.4 4.2 5.9-1.5 5-9 9.6-9 9.6z" />
+  ),
   pulse: <path d="M2 12h4l2.5-5 4 10 2.5-5H22" />,
   thermometer: (
     <>
@@ -57,12 +63,8 @@ const paths = {
       <path d="M12 8V4M9 5l3 3 3-3M8.5 12H4M8.5 16l-3.5 2M15.5 12H20M15.5 16l3.5 2M8.8 9.5L6 7.5M15.2 9.5L18 7.5" />
     </>
   ),
-  flame: <path d="M12 3c1 3.5 5 5.5 5 10.5a5 5 0 0 1-10 0c0-2.4 1.2-4 2.5-5 0 2 1 3 2 3.5C11 9 10.5 6 12 3z" />,
-  coin: (
-    <>
-      <circle cx="12" cy="12" r="9" />
-      <path d="M14.8 9.2c-.5-1-1.6-1.7-2.8-1.7-1.6 0-2.8.9-2.8 2.2 0 3 5.8 1.6 5.8 4.6 0 1.3-1.3 2.2-3 2.2-1.3 0-2.5-.7-3-1.8M12 6v1.5M12 16.5V18" />
-    </>
+  flame: (
+    <path d="M12 3c1 3.5 5 5.5 5 10.5a5 5 0 0 1-10 0c0-2.4 1.2-4 2.5-5 0 2 1 3 2 3.5C11 9 10.5 6 12 3z" />
   ),
   bolt: <path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z" />,
   boat: (
@@ -90,7 +92,9 @@ const paths = {
       <path d="M12 3l6 8h-3l4 5H5l4-5H6l6-8z" />
     </>
   ),
-  phone: <path d="M5 3h4l2 5-2.5 1.5a11 11 0 0 0 6 6L16 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 5a2 2 0 0 1 2-2z" />,
+  phone: (
+    <path d="M5 3h4l2 5-2.5 1.5a11 11 0 0 0 6 6L16 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 5a2 2 0 0 1 2-2z" />
+  ),
   message: (
     <>
       <path d="M4 5h16v11H9l-5 4V5z" />
@@ -124,30 +128,18 @@ const paths = {
   ),
   menu: <path d="M4 7h16M4 12h16M4 17h16" />,
   close: <path d="M6 6l12 12M18 6L6 18" />,
-  instagram: (
-    <>
-      <rect x="3.5" y="3.5" width="17" height="17" rx="5" />
-      <circle cx="12" cy="12" r="4" />
-      <circle cx="17.2" cy="6.8" r=".6" />
-    </>
-  ),
-  youtube: (
-    <>
-      <rect x="2.5" y="5.5" width="19" height="13" rx="4" />
-      <path d="M10 9.2v5.6l4.8-2.8L10 9.2z" />
-    </>
-  ),
-  x: <path d="M4 4l16 16M20 4l-6.6 7.4M10.6 12.6L4 20" />,
-  linkedin: (
-    <>
-      <rect x="3" y="3" width="18" height="18" rx="3" />
-      <path d="M8 10.5V17M8 7.3v.01M12 17v-6.5M12 13.5c0-1.8 1-3 2.6-3 1.4 0 2.4 1 2.4 3V17" />
-    </>
-  ),
   sparkle: <path d="M12 2v20M2 12h20M5 5l14 14M19 5L5 19" />,
 }
 
-export default function Icon({ name, size = 24, strokeWidth = 1.6, className = '', ...rest }) {
+export default function Icon({
+  name,
+  size = 24,
+  strokeWidth = 1.6,
+  className = '',
+  ...rest
+}) {
+  const iconClassName = ['icon', className].filter(Boolean).join(' ')
+
   return (
     <svg
       width={size}
@@ -158,11 +150,11 @@ export default function Icon({ name, size = 24, strokeWidth = 1.6, className = '
       strokeWidth={strokeWidth}
       strokeLinecap="round"
       strokeLinejoin="round"
-      className={`icon ${className}`}
+      className={iconClassName}
       aria-hidden="true"
       {...rest}
     >
-      {paths[name]}
+      {ICON_PATHS[name]}
     </svg>
   )
 }

@@ -1,0 +1,28 @@
+/* =========================================================
+   DESIGN TOKENS — Paleta, Tipografia, Curvas e Espaçamentos
+   Proporção: 60% areia · 20% carvão · 15% terracota · 5% oliva/âmbar
+   ========================================================= */
+
+:root {
+  --charcoal: #252522;
+  --terracotta: #a74732;
+  --terracotta-dark: #8a3825;
+  --amber: #d9a45b;
+  --sand: #eae6dc;
+  --sand-2: #ddd6c6;
+  --paper: #f3f0e9;
+  --olive: #626347;
+  --olive-dark: #4d4e37;
+
+  --f-display: 'Archivo Black', 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
+  --f-italic: 'Archivo', 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
+  --f-body: 'Inter', 'Manrope', system-ui, sans-serif;
+  --f-mono: 'Space Mono', ui-monospace, monospace;
+  --f-script: 'Caveat', cursive;
+
+  --radius: 22px;
+  --radius-lg: 36px;
+  --header-h: 76px;
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --shadow: 0 20px 50px -25px rgba(37, 37, 34, 0.45);
+}

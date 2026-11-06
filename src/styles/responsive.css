@@ -1,0 +1,221 @@
+/* =========================================================
+   RESPONSIVE — Breakpoints (1100px, 960px, 640px)
+   ========================================================= */
+
+@media (max-width: 1100px) {
+  .nav__link {
+    padding: 8px 10px;
+  }
+
+  .support__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .support__extra {
+    grid-template-columns: 1fr;
+  }
+
+  .credits {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .flow {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .flow__step:nth-child(2)::after {
+    display: none;
+  }
+}
+
+@media (max-width: 960px) {
+  :root {
+    --header-h: 68px;
+  }
+
+  .header__toggle {
+    display: block;
+  }
+
+  .nav {
+    position: fixed;
+    inset: var(--header-h) 0 0;
+    flex-direction: column;
+    gap: 4px;
+    padding: 30px 24px;
+    background: var(--sand);
+    transform: translateX(100%);
+    transition: transform 0.45s var(--ease);
+    margin: 0;
+  }
+
+  .header--open {
+    background: var(--sand);
+  }
+
+  .header--open .nav {
+    transform: none;
+  }
+
+  .nav__link {
+    font-family: var(--f-display);
+    font-size: 1.8rem;
+    letter-spacing: -0.02em;
+    padding: 12px 16px;
+    border-radius: 14px;
+  }
+
+  .hero__grid,
+  .a-hero__grid,
+  .thermo__grid,
+  .origin__grid,
+  .big-stat__grid,
+  .governance__head,
+  .health__grid,
+  .split-cards,
+  .impact {
+    grid-template-columns: 1fr;
+  }
+
+  .hero__art {
+    justify-self: center;
+    max-width: 480px;
+  }
+
+  .stats {
+    grid-template-columns: 1fr;
+    margin-top: 0;
+  }
+
+  .stats__soil {
+    min-height: 120px;
+  }
+
+  .stats__list {
+    grid-template-columns: 1fr;
+    padding: 30px 24px;
+    gap: 20px;
+  }
+
+  .stats__more {
+    justify-self: start;
+  }
+
+  .causes__main {
+    grid-template-columns: 1fr;
+  }
+
+  .causes__main::before {
+    display: none;
+  }
+
+  .collage {
+    height: 340px;
+  }
+
+  .articles__grid,
+  .regions__grid,
+  .tips,
+  .measures {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .chain {
+    grid-template-columns: 1fr;
+  }
+
+  .chain__step:not(:last-child)::after {
+    content: '↓';
+    right: 50%;
+    top: auto;
+    bottom: -20px;
+    transform: translateX(50%);
+  }
+
+  .impact--reverse .impact__media {
+    order: 0;
+  }
+
+  .impact {
+    gap: 30px;
+  }
+
+  .a-hero__media {
+    aspect-ratio: 16 / 11;
+    border-radius: 160px 160px var(--radius) var(--radius);
+  }
+
+  .section {
+    padding: 80px 0;
+  }
+}
+
+@media (max-width: 640px) {
+  body {
+    font-size: 16px;
+  }
+
+  .container {
+    width: calc(100% - 36px);
+  }
+
+  .articles__grid,
+  .regions__grid,
+  .tips,
+  .measures,
+  .support__grid,
+  .support__extra,
+  .flow {
+    grid-template-columns: 1fr;
+  }
+
+  .flow__step::after {
+    display: none;
+  }
+
+  .credits__list {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .footer__bar-inner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .hero__note {
+    font-size: 1.3rem;
+  }
+
+  .collage {
+    height: 260px;
+  }
+
+  .info-card,
+  .split-card,
+  .diagram {
+    padding: 26px 22px;
+  }
+
+  .diagram__toggle button {
+    padding: 8px 12px;
+    font-size: 0.68rem;
+  }
+
+  .next__card {
+    padding: 28px;
+    min-height: 220px;
+  }
+
+  .next__arrow {
+    right: 24px;
+    top: 24px;
+    width: 52px;
+    height: 52px;
+  }
+
+  .heat-days__cols {
+    height: 220px;
+  }
+}
